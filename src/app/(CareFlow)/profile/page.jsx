@@ -2,264 +2,393 @@
 
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+
 import {
-    User,
-    Mail,
-    Phone,
-    Calendar,
-    MapPin,
-    Pencil,
+  User,
+  Mail,
+  Phone,
+  Calendar,
+  MapPin,
+  Pencil,
+  Save,
+  IndianRupee,
+  X,
 } from "lucide-react";
 
 export default function ProfilePage() {
-    const [profile, setProfile] = useState(null);
-    const [appointments, setAppointments] = useState([]);
-    const [editing, setEditing] = useState(false);
-    const [loading, setLoading] = useState(false);
+  const [profile, setProfile] = useState(null);
+  const [appointments, setAppointments] = useState([]);
+  const [editing, setEditing] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-    const fetchAll = async () => {
-        const [p, a] = await Promise.all([
-            fetch("/api/profile"),
-            fetch("/api/appointments")
-        ]);
+  const fetchAll = async () => {
+    const [p, a] = await Promise.all([
+      fetch("/api/profile"),
+      fetch("/api/appointments"),
+    ]);
 
-        const pData = await p.json();
-        const aData = await a.json();
+    const pData = await p.json();
+    const aData = await a.json();
 
-        setProfile(pData.profile);
-        setAppointments(aData.appointments || []);
-    };
+    setProfile(pData.profile);
+    setAppointments(aData.appointments || []);
+  };
 
-    useEffect(() => {
-        fetchAll();
-    }, []);
+  useEffect(() => {
+    fetchAll();
+  }, []);
 
-    const updateProfile = async () => {
-        try {
-            setLoading(true);
+  const updateProfile = async () => {
+    try {
+      setLoading(true);
 
-            const res = await fetch("/api/profile", {
-                method: "PATCH",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(profile)
-            });
+      const res = await fetch("/api/profile", {
+        method: "PATCH",
 
-            if (!res.ok) throw new Error();
+        headers: { "Content-Type": "application/json" },
 
-            toast.success("Updated");
-            setEditing(false);
-        } catch {
-            toast.error("Failed");
-        } finally {
-            setLoading(false);
-        }
-    };
+        body: JSON.stringify(profile),
+      });
 
-    const cancelAppointment = async (id) => {
-        if (!confirm("Cancel appointment?")) return;
+      if (!res.ok) throw new Error();
 
-        const res = await fetch(`/api/appointments/${id}`, {
-            method: "PATCH",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ status: "CANCELLED" })
-        });
+      toast.success("Profile updated");
 
-        if (res.ok) {
-            toast.success("Cancelled");
-            fetchAll();
-        }
-    };
+      setEditing(false);
+    } catch {
+      toast.error("Update failed");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    if (!profile) return null;
+  const cancelAppointment = async (id) => {
+    toast(
+      (t) => (
+        <div className="flex flex-col gap-4">
+          <div>
+            <h3 className="font-semibold text-slate-900">
+              Cancel Appointment?
+            </h3>
 
-    const input =
-        "w-full mt-1 px-4 py-2.5 rounded-lg bg-gray-100 focus:ring-2 focus:ring-teal-500 outline-none";
+            <p className="text-sm text-gray-500 mt-1">
+              This action cannot be undone.
+            </p>
+          </div>
 
-    const statusColor = (s) => {
-        if (s === "PENDING") return "bg-yellow-100 text-yellow-700";
-        if (s === "CONFIRMED") return "bg-green-100 text-green-700";
-        if (s === "CANCELLED") return "bg-red-100 text-red-600";
-        return "bg-blue-100 text-blue-700";
-    };
+          <div className="flex justify-end gap-2">
+            <button
+              onClick={() => toast.dismiss(t.id)}
+              className="px-4 py-2 rounded-xl bg-gray-100 text-sm"
+            >
+              Keep
+            </button>
 
-    return (
-        <div className="max-w-2xl mx-auto px-4 py-10 space-y-8">
+            <button
+              onClick={async () => {
+                toast.dismiss(t.id);
 
-            {/* PROFILE */}
-            <h1 className="text-4xl font-bold flex items-center text-teal-700 gap-2">
-                <User className="text-teal-600" size={20} />
-                My Profile
-            </h1>
-            <div className="bg-white rounded-2xl shadow-2xl p-6 space-y-6">
+                const res = await fetch(`/api/appointments/${id}`, {
+                  method: "PATCH",
 
-                <div className="flex justify-end items-center">
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
 
-                    {!editing ? (
-                        <button
-                            onClick={() => setEditing(true)}
-                            className="text-teal-600 flex items-center gap-1 text-sm font-medium"
-                        >
-                            <Pencil size={16} /> Edit
-                        </button>
-                    ) : (
-                        <button
-                            onClick={updateProfile}
-                            className="bg-teal-600 text-white px-4 py-2 rounded-lg text-sm flex items-center gap-1 hover:bg-teal-700 transition"
-                        >
-                            <Save size={16} /> {loading ? "Saving..." : "Save"}
-                        </button>
-                    )}
-                </div>
+                  body: JSON.stringify({
+                    status: "CANCELLED",
+                  }),
+                });
 
-                <div className="space-y-4">
-
-                    <Row icon={User} label="Name">
-                        {editing ? (
-                            <input
-                                className={input}
-                                value={profile.name}
-                                onChange={(e) => setProfile({ ...profile, name: e.target.value })}
-                            />
-                        ) : profile.name}
-                    </Row>
-
-                    <Row icon={Mail} label="Email">
-                        {profile.email}
-                    </Row>
-
-                    <Row icon={Phone} label="Phone">
-                        {editing ? (
-                            <input
-                                className={input}
-                                value={profile.phone}
-                                onChange={(e) => setProfile({ ...profile, phone: e.target.value })}
-                            />
-                        ) : profile.phone}
-                    </Row>
-
-                    <Row icon={User} label="Gender">
-                        {editing ? (
-                            <select
-                                className={input}
-                                value={profile.gender}
-                                onChange={(e) => setProfile({ ...profile, gender: e.target.value })}
-                            >
-                                <option>MALE</option>
-                                <option>FEMALE</option>
-                                <option>OTHER</option>
-                            </select>
-                        ) : profile.gender}
-                    </Row>
-
-                    <Row icon={Calendar} label="DOB">
-                        {editing ? (
-                            <input
-                                type="date"
-                                className={input}
-                                value={profile.dob?.split("T")[0]}
-                                onChange={(e) => setProfile({ ...profile, dob: e.target.value })}
-                            />
-                        ) : new Date(profile.dob).toLocaleDateString()}
-                    </Row>
-
-                    <Row icon={MapPin} label="Address">
-                        {editing ? (
-                            <textarea
-                                rows={2}
-                                className={input}
-                                value={profile.address}
-                                onChange={(e) => setProfile({ ...profile, address: e.target.value })}
-                            />
-                        ) : profile.address}
-                    </Row>
-                </div>
-
-            </div>
-
-            <h2 className="text-4xl text-teal-800 font-bold mb-5 flex items-center gap-2">
-                <Calendar className="text-teal-600" size={20} />
-                My Appointments
-            </h2>
-            {/* APPOINTMENTS */}
-            <div className="bg-white rounded-2xl shadow-2xl p-6">
-
-
-                {appointments.length === 0 ? (
-                    <p className="text-gray-500 text-sm">
-                        No appointments yet
-                    </p>
-                ) : (
-                    <div className="space-y-4">
-
-                        {appointments.map((a) => {
-                            const date = new Date(a.bookingTime).toLocaleString();
-
-                            return (
-                                <div
-                                    key={a.id}
-                                    className="flex justify-between items-center p-4  rounded-xl hover:shadow-sm transition"
-                                >
-
-                                    {/* LEFT */}
-                                    <div>
-                                        <p className="font-semibold text-xl">
-                                            Dr. {a.doctor.name}
-                                        </p>
-                                        <p className="text-sm text-gray-500 mt-1">
-                                            {date}
-                                        </p>
-                                    </div>
-
-                                    {/* RIGHT */}
-                                    <div className="flex flex-col items-end gap-2">
-
-                                        <span className={`text-xs px-3 py-1 rounded-full font-medium ${statusColor(a.status)}`}>
-                                            {a.status}
-                                        </span>
-
-                                        {a.status === "PENDING" && (
-                                            <button
-                                                onClick={() => cancelAppointment(a.id)}
-                                                className="text-red-500 text-xs font-medium hover:underline"
-                                            >
-                                                Cancel
-                                            </button>
-                                        )}
-
-                                    </div>
-
-                                </div>
-                            );
-                        })}
-
-                    </div>
-                )}
-
-            </div>
-
+                if (res.ok) {
+                  toast.success("Appointment cancelled");
+                  fetchAll();
+                } else {
+                  toast.error("Failed");
+                }
+              }}
+              className="px-4 py-2 rounded-xl bg-red-500 text-white text-sm"
+            >
+              Cancel
+            </button>
+          </div>
         </div>
+      ),
+      { duration: 10000 },
     );
+  };
+
+  if (!profile) return null;
+
+  const inputClass =
+    "w-full rounded-xl border border-gray-200 bg-white px-3 py-2 outline-none focus:ring-2 focus:ring-emerald-100";
+
+  const statusColor = (status) => {
+    if (status === "PENDING") {
+      return "bg-yellow-100 text-yellow-700";
+    }
+
+    if (status === "CONFIRMED") {
+      return "bg-green-100 text-green-700";
+    }
+
+    if (status === "CANCELLED") {
+      return "bg-red-100 text-red-600";
+    }
+
+    return "bg-blue-100 text-blue-700";
+  };
+
+  return (
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+      <div className="flex flex-col xl:flex-row gap-6 items-start">
+        {/* PROFILE */}
+        <div className="w-full xl:w-[360px] shrink-0">
+          <div className="bg-white rounded-3xl border border-gray-100 p-5 sticky top-6">
+            {/* TOP */}
+            <div className="flex items-start justify-between gap-3">
+              <div className="flex items-center gap-3">
+                <div className="h-14 w-14 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-xl font-bold shrink-0">
+                  {profile.name?.charAt(0)}
+                </div>
+
+                <div className="min-w-0">
+                  <h1 className="text-2xl font-black text-slate-900 leading-tight break-words">
+                    {profile.name}
+                  </h1>
+
+                  <p className="text-sm text-gray-500 mt-1">Personal Profile</p>
+                </div>
+              </div>
+
+              {!editing ? (
+                <button
+                  onClick={() => setEditing(true)}
+                  className="h-10 w-10 rounded-xl bg-gray-100 hover:bg-emerald-100 hover:text-emerald-700 flex items-center justify-center transition shrink-0"
+                >
+                  <Pencil size={16} />
+                </button>
+              ) : (
+                <button
+                  onClick={updateProfile}
+                  className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 rounded-xl text-sm font-medium shrink-0"
+                >
+                  <Save size={16} />
+                  {loading ? "Saving..." : "Save"}
+                </button>
+              )}
+            </div>
+
+            {/* INFO */}
+            <div className="mt-6 space-y-3">
+              <ProfileItem icon={Mail} label="Email">
+                {profile.email}
+              </ProfileItem>
+
+              <ProfileItem icon={Phone} label="Phone">
+                {editing ? (
+                  <input
+                    className={inputClass}
+                    value={profile.phone}
+                    onChange={(e) =>
+                      setProfile({
+                        ...profile,
+                        phone: e.target.value,
+                      })
+                    }
+                  />
+                ) : (
+                  profile.phone
+                )}
+              </ProfileItem>
+
+              <ProfileItem icon={User} label="Gender">
+                {editing ? (
+                  <select
+                    className={inputClass}
+                    value={profile.gender}
+                    onChange={(e) =>
+                      setProfile({
+                        ...profile,
+                        gender: e.target.value,
+                      })
+                    }
+                  >
+                    <option>MALE</option>
+                    <option>FEMALE</option>
+                    <option>OTHER</option>
+                  </select>
+                ) : (
+                  profile.gender
+                )}
+              </ProfileItem>
+
+              <ProfileItem icon={Calendar} label="Date of Birth">
+                {editing ? (
+                  <input
+                    type="date"
+                    className={inputClass}
+                    value={profile.dob?.split("T")[0]}
+                    onChange={(e) =>
+                      setProfile({
+                        ...profile,
+                        dob: e.target.value,
+                      })
+                    }
+                  />
+                ) : (
+                  new Date(profile.dob).toLocaleDateString()
+                )}
+              </ProfileItem>
+
+              <ProfileItem icon={MapPin} label="Address">
+                {editing ? (
+                  <textarea
+                    rows={3}
+                    className={inputClass}
+                    value={profile.address}
+                    onChange={(e) =>
+                      setProfile({
+                        ...profile,
+                        address: e.target.value,
+                      })
+                    }
+                  />
+                ) : (
+                  profile.address
+                )}
+              </ProfileItem>
+            </div>
+          </div>
+        </div>
+
+        {/* APPOINTMENTS */}
+        <div className="flex-1 w-full">
+          <div className="bg-white rounded-3xl border border-gray-100 p-5 sm:p-6">
+            {/* HEADER */}
+            <div className="mb-6">
+              <h2 className="text-2xl sm:text-3xl font-black text-slate-900">
+                My Appointments
+              </h2>
+
+              <p className="text-sm text-gray-500 mt-1">
+                {appointments.length} total appointments
+              </p>
+            </div>
+
+            {appointments.length === 0 ? (
+              <div className="h-[220px] flex items-center justify-center text-gray-500">
+                No appointments yet
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {appointments.map((a) => {
+                  const date = new Date(a.bookingTime).toLocaleString();
+
+                  return (
+                    <div
+                      key={a.id}
+                      className="rounded-2xl border border-gray-100 hover:border-emerald-200 hover:bg-emerald-50/30 transition-all p-4"
+                    >
+                      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                        {/* LEFT */}
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-center gap-3 flex-wrap">
+                            <h3 className="font-bold text-slate-900 text-lg">
+                              Dr. {a.doctor.name}
+                            </h3>
+
+                            <span
+                              className={`text-[11px] px-3 py-1 rounded-full font-semibold ${statusColor(a.status)}`}
+                            >
+                              {a.status}
+                            </span>
+                          </div>
+
+                          <p className="text-sm text-gray-500 mt-1">
+                            {a.doctor.specialization}
+                          </p>
+
+                          <div className="flex flex-wrap items-center gap-5 mt-4 text-sm">
+                            <div className="flex items-center gap-2 text-gray-700">
+                              <Calendar
+                                size={15}
+                                className="text-emerald-600"
+                              />
+
+                              <span>{date}</span>
+                            </div>
+
+                            <div className="flex items-center gap-2 text-gray-700">
+                              <IndianRupee
+                                size={15}
+                                className="text-emerald-600"
+                              />
+
+                              <span className="font-semibold">₹{a.amount}</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* RIGHT */}
+                        {a.status === "PENDING" && (
+                          <button
+                            onClick={() => cancelAppointment(a.id)}
+                            className="flex items-center justify-center gap-2 text-red-600 hover:bg-red-50 px-4 py-2 rounded-xl text-sm font-medium transition whitespace-nowrap"
+                          >
+                            <X size={15} />
+                            Cancel
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
-/* ROW */
-function Row({ icon: Icon, label, children }) {
-    return (
-        <div className="flex items-start gap-3">
-
-            {/* ICON */}
-            <div className="mt-1 text-teal-600">
-                <Icon size={18} />
-            </div>
-
-            {/* TEXT */}
-            <div className="flex-1">
-                <p className="text-lg font-semibold text-gray-500">
-                    {label}
-                </p>
-                <div className="text-gray-800 text-xl font-bold">
-                    {children}
-                </div>
-            </div>
+/* PROFILE ITEM */
+function ProfileItem({ icon: Icon, label, children }) {
+  return (
+    <div className="rounded-2xl bg-gray-50 p-4">
+      <div className="flex items-start gap-3">
+        <div className="h-10 w-10 rounded-xl bg-white flex items-center justify-center text-emerald-600 shrink-0">
+          <Icon size={18} />
         </div>
-    );
+
+        <div className="min-w-0 flex-1">
+          <p className="text-xs text-gray-500 mb-1">{label}</p>
+
+          <div className="font-medium text-slate-900 text-sm break-words">
+            {children}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* APPOINTMENT ITEM */
+function AppointmentItem({ icon: Icon, label, value }) {
+  return (
+    <div className="flex items-center gap-3 rounded-xl bg-gray-50 p-3">
+      <div className="h-10 w-10 rounded-xl bg-white flex items-center justify-center text-emerald-600 shrink-0">
+        <Icon size={18} />
+      </div>
+
+      <div className="min-w-0">
+        <p className="text-xs text-gray-500">{label}</p>
+
+        <p className="font-semibold text-sm text-slate-900 break-words">
+          {value}
+        </p>
+      </div>
+    </div>
+  );
 }

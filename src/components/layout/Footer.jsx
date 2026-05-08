@@ -3,10 +3,8 @@
 export default function Footer() {
   return (
     <footer className="bg-teal-700 py-4">
-      <div className="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between text-sm text-white gap-3">
-
-        {/* Left */}
-        <p>
+      <div className="max-w-7xl mx-auto px-4 flex items-center justify-center">
+        <p className="text-sm text-white text-center">
           © {new Date().getFullYear()} CareFlow. All rights reserved.
         </p>
       </div>

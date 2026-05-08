@@ -1,195 +1,291 @@
 "use client";
 
 import { useEffect, useState, use } from "react";
+import { useRouter } from "next/navigation";
+
 import toast from "react-hot-toast";
-import { useAuth } from "@/context/AuthContext";
-import { Phone, Clock, User, IndianRupee } from "lucide-react";
 
-export default function DoctorDetailPage({ params }) {
-    const { id } = use(params);
-    const { user } = useAuth();
+import {
+  Calendar,
+  Clock3,
+  IndianRupee,
+  Phone,
+  User,
+  Stethoscope,
+} from "lucide-react";
 
-    const [doctor, setDoctor] = useState(null);
-    const [date, setDate] = useState("");
-    const [time, setTime] = useState("");
+export default function AppointmentPage({ params }) {
+  const { id } = use(params);
 
-    const fetchDoctor = async () => {
-        const res = await fetch(`/api/doctors/${id}`);
-        const data = await res.json();
-        setDoctor(data.doctor);
-    };
+  const router = useRouter();
 
-    useEffect(() => {
-        fetchDoctor();
-    }, [id]);
+  const [doctor, setDoctor] = useState(null);
+  const [date, setDate] = useState("");
+  const [time, setTime] = useState("");
 
-    const bookAppointment = async () => {
-        if (!date || !time) {
-            return toast.error("Select date and time");
-        }
+  const fetchDoctor = async () => {
+    const res = await fetch(`/api/doctors/${id}`);
+    const data = await res.json();
 
-        const bookingTime = new Date(`${date}T${time}`);
+    setDoctor(data.doctor);
+  };
 
-        const res = await fetch("/api/appointments", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                doctorId: doctor.id,
-                bookingTime
-            })
-        });
+  useEffect(() => {
+    fetchDoctor();
+  }, [id]);
 
-        const data = await res.json();
+  const handleBooking = async () => {
+    if (!date || !time) {
+      return toast.error("Please select date and time");
+    }
 
-        if (!res.ok) toast.error(data.message);
-        else {
-            toast.success("Appointment booked");
-            setDate("");
-            setTime("");
-        }
-    };
+    const bookingTime = new Date(`${date}T${time}`);
 
-    if (!doctor) return null;
+    const res = await fetch("/api/appointments", {
+      method: "POST",
 
-    return (
-        <div className="bg-gray-50 min-h-screen py-6 px-4 sm:px-6">
-            <div className="max-w-7xl mx-auto grid gap-10 lg:grid-cols-2 lg:gap-16">
+      headers: { "Content-Type": "application/json" },
 
-                <div className="space-y-6 sm:space-y-8">
+      body: JSON.stringify({
+        doctorId: id,
+        bookingTime,
+      }),
+    });
 
-                    {/* IMAGE */}
-                    <div className="relative">
-                        <img
-                            src={doctor.profileImage || "/doctor-placeholder.png"}
-                            className="w-full aspect-4/5 object-cover rounded-2xl sm:rounded-3xl shadow-lg"
-                        />
-                        <div
-                            className={`absolute bottom-3 right-3 px-3 py-1.5 text-xs sm:text-sm rounded-full font-semibold shadow ${doctor.available
-                                    ? "bg-green-500 text-white"
-                                    : "bg-red-500 text-white"
-                                }`}
-                        >
-                            {doctor.available ? "Available" : "Unavailable"}
-                        </div>
-                    </div>
+    const data = await res.json();
 
-                    {/* BASIC INFO */}
-                    <div>
-                        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">
-                            Dr. {doctor.name}
-                        </h1>
-                        <p className="text-base sm:text-lg text-gray-600 mt-1">
-                            {doctor.degree}
-                        </p>
-                        <p className="text-base sm:text-lg text-teal-600 font-semibold mt-1">
-                            {doctor.specialization}
-                        </p>
-                    </div>
+    if (!res.ok) {
+      return toast.error(data.error || "Booking failed");
+    }
 
-                    {/* DETAILS */}
-                    <div className="space-y-4 text-sm sm:text-base">
+    toast.success("Appointment booked successfully");
 
-                        <div className="flex gap-3">
-                            <Phone className="text-teal-600 w-5 h-5 mt-1" />
-                            <div>
-                                <p className="text-gray-500">Phone</p>
-                                <p className="font-semibold">{doctor.phone}</p>
-                            </div>
-                        </div>
+    setDate("");
+    setTime("");
 
-                        <div className="flex gap-3">
-                            <Clock className="text-teal-600 w-5 h-5 mt-1" />
-                            <div>
-                                <p className="text-gray-500">Experience</p>
-                                <p className="font-semibold">
-                                    {doctor.experience} years
-                                </p>
-                            </div>
-                        </div>
+    router.push("/profile");
+  };
 
-                        <div className="flex gap-3">
-                            <IndianRupee className="text-teal-600 w-5 h-5 mt-1" />
-                            <div>
-                                <p className="text-gray-500">Consultation Fee</p>
-                                <p className="font-semibold">₹{doctor.fees}</p>
-                            </div>
-                        </div>
+  if (!doctor) return null;
 
-                        <div className="flex gap-3">
-                            <User className="text-teal-600 w-5 h-5 mt-1" />
-                            <div>
-                                <p className="text-gray-500">Gender</p>
-                                <p className="font-semibold capitalize">
-                                    {doctor.gender}
-                                </p>
-                            </div>
-                        </div>
+  return (
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10 overflow-hidden">
+      <div className="grid xl:grid-cols-2 gap-6 items-start overflow-hidden">
+        {/* LEFT */}
+        <div className="bg-white rounded-[2rem] border border-gray-100 shadow-sm p-6 overflow-hidden">
+          <div className="flex flex-col gap-6">
+            {/* TOP */}
+            <div className="flex flex-col sm:flex-row gap-5">
+              {/* IMAGE */}
+              <div className="relative shrink-0">
+                <img
+                  src={doctor.profileImage || "/doctor-placeholder.png"}
+                  className="w-full sm:w-[160px] h-[260px] sm:h-[160px] object-cover rounded-[2rem]"
+                />
 
-                    </div>
-
-                    {/* ABOUT */}
-                    {doctor.about && (
-                        <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
-                            {doctor.about}
-                        </p>
-                    )}
+                <div
+                  className={`absolute top-3 left-3 px-4 py-1.5 rounded-full text-xs font-semibold shadow-lg ${
+                    doctor.available
+                      ? "bg-emerald-500 text-white"
+                      : "bg-red-500 text-white"
+                  }`}
+                >
+                  {doctor.available ? "Available" : "Unavailable"}
                 </div>
+              </div>
 
-                <div className="bg-white rounded-2xl sm:rounded-3xl shadow-lg p-5 sm:p-6 lg:p-8 h-fit lg:sticky lg:top-16">
+              {/* INFO */}
+              <div className="flex-1 min-w-0">
+                <h1 className="text-3xl sm:text-4xl font-black text-slate-900 leading-tight break-words">
+                  Dr. {doctor.name}
+                </h1>
 
-                    <h2 className="text-lg sm:text-xl lg:text-2xl font-bold mb-5">
-                        Book Appointment
-                    </h2>
+                <p className="text-emerald-600 text-xl font-semibold mt-2">
+                  {doctor.degree}
+                </p>
 
-                    {!user && (
-                        <button className="w-full py-3 bg-gray-900 text-white rounded-xl text-sm sm:text-base hover:bg-black transition">
-                            Login to Continue
-                        </button>
-                    )}
-
-                    {user && !doctor.available && (
-                        <p className="text-red-500 text-sm sm:text-base font-medium">
-                            Doctor is currently unavailable
-                        </p>
-                    )}
-
-                    {user && doctor.available && (
-                        <div className="space-y-4">
-
-                            <div>
-                                <label className="text-xs sm:text-sm text-gray-600">
-                                    Select Date
-                                </label>
-                                <input
-                                    type="date"
-                                    value={date}
-                                    onChange={(e) => setDate(e.target.value)}
-                                    className="mt-1 w-full px-3 py-2 sm:px-4 sm:py-3 rounded-xl bg-gray-100 focus:ring-2 focus:ring-teal-500 text-sm"
-                                />
-                            </div>
-
-                            <div>
-                                <label className="text-xs sm:text-sm text-gray-600">
-                                    Select Time
-                                </label>
-                                <input
-                                    type="time"
-                                    value={time}
-                                    onChange={(e) => setTime(e.target.value)}
-                                    className="mt-1 w-full px-3 py-2 sm:px-4 sm:py-3 rounded-xl bg-gray-100 focus:ring-2 focus:ring-teal-500 text-sm"
-                                />
-                            </div>
-
-                            <button
-                                onClick={bookAppointment}
-                                className="w-full py-3 bg-teal-600 text-white rounded-xl text-sm sm:text-base font-semibold hover:bg-teal-700 transition active:scale-[0.98]"
-                            >
-                                Confirm Appointment
-                            </button>
-                        </div>
-                    )}
+                <div className="mt-4">
+                  <span className="px-4 py-2 rounded-2xl bg-gray-100 text-gray-800 text-base font-medium inline-block">
+                    {doctor.specialization}
+                  </span>
                 </div>
+              </div>
             </div>
+
+            {/* STATS */}
+            <div className="grid grid-cols-2 gap-3">
+              <div className="rounded-2xl bg-blue-50 px-4 py-4">
+                <div className="flex items-center gap-3">
+                  <div className="h-11 w-11 rounded-xl bg-white flex items-center justify-center text-blue-600 shrink-0">
+                    <Clock3 size={20} />
+                  </div>
+
+                  <div className="min-w-0">
+                    <p className="text-xs text-gray-400 font-medium">
+                      Experience
+                    </p>
+
+                    <p className="font-bold text-gray-900 text-lg">
+                      {doctor.experience} yrs
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="rounded-2xl bg-emerald-50 px-4 py-4">
+                <div className="flex items-center gap-3">
+                  <div className="h-11 w-11 rounded-xl bg-white flex items-center justify-center text-emerald-600 shrink-0">
+                    <IndianRupee size={20} />
+                  </div>
+
+                  <div className="min-w-0">
+                    <p className="text-xs text-gray-400 font-medium">Fee</p>
+
+                    <p className="font-bold text-emerald-700 text-lg">
+                      ₹{doctor.fees}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="rounded-2xl bg-orange-50 px-4 py-4">
+                <div className="flex items-center gap-3">
+                  <div className="h-11 w-11 rounded-xl bg-white flex items-center justify-center text-orange-600 shrink-0">
+                    <Phone size={20} />
+                  </div>
+
+                  <div className="min-w-0 overflow-hidden">
+                    <p className="text-xs text-gray-400 font-medium">Contact</p>
+
+                    <p className="font-bold text-gray-900 text-base break-all">
+                      {doctor.phone}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="rounded-2xl bg-purple-50 px-4 py-4">
+                <div className="flex items-center gap-3">
+                  <div className="h-11 w-11 rounded-xl bg-white flex items-center justify-center text-purple-600 shrink-0">
+                    <User size={20} />
+                  </div>
+
+                  <div className="min-w-0">
+                    <p className="text-xs text-gray-400 font-medium">Gender</p>
+
+                    <p className="font-bold text-gray-900 text-base capitalize">
+                      {doctor.gender}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* ABOUT */}
+            <div>
+              <h2 className="text-2xl font-bold text-slate-900 mb-3">
+                About Doctor
+              </h2>
+
+              <p className="text-gray-600 leading-relaxed break-words">
+                {doctor.about}
+              </p>
+            </div>
+          </div>
         </div>
-    );
+
+        {/* RIGHT */}
+        <div className="bg-white rounded-[2rem] border border-gray-100 shadow-sm p-6 sm:p-8 overflow-hidden">
+          <div className="flex items-start gap-4 mb-8">
+            <div className="h-14 w-14 rounded-2xl bg-emerald-100 flex items-center justify-center text-emerald-600 shrink-0">
+              <Calendar size={28} />
+            </div>
+
+            <div className="min-w-0">
+              <h2 className="text-3xl sm:text-4xl font-black text-slate-900 leading-tight">
+                Book Appointment
+              </h2>
+
+              <p className="text-gray-500 mt-2 text-base leading-relaxed">
+                Schedule your consultation with your preferred doctor.
+              </p>
+            </div>
+          </div>
+
+          {/* FORM */}
+          <div className="space-y-6">
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Select Date
+              </label>
+
+              <input
+                type="date"
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+                className="w-full rounded-2xl border border-gray-200 bg-gray-50 px-5 py-4 outline-none focus:ring-4 focus:ring-emerald-100 focus:border-emerald-500"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Select Time
+              </label>
+
+              <input
+                type="time"
+                value={time}
+                onChange={(e) => setTime(e.target.value)}
+                className="w-full rounded-2xl border border-gray-200 bg-gray-50 px-5 py-4 outline-none focus:ring-4 focus:ring-emerald-100 focus:border-emerald-500"
+              />
+            </div>
+
+            {/* SUMMARY */}
+            <div className="rounded-2xl bg-slate-50 border border-gray-100 p-5">
+              <div className="flex items-center gap-2 mb-4">
+                <Stethoscope size={18} className="text-emerald-600" />
+
+                <h3 className="font-semibold text-slate-900">
+                  Appointment Summary
+                </h3>
+              </div>
+
+              <div className="space-y-3 text-sm">
+                <div className="flex justify-between gap-4">
+                  <span className="text-gray-500">Doctor</span>
+
+                  <span className="font-semibold text-gray-900 text-right">
+                    Dr. {doctor.name}
+                  </span>
+                </div>
+
+                <div className="flex justify-between gap-4">
+                  <span className="text-gray-500">Specialization</span>
+
+                  <span className="font-semibold text-gray-900 text-right">
+                    {doctor.specialization}
+                  </span>
+                </div>
+
+                <div className="flex justify-between gap-4">
+                  <span className="text-gray-500">Consultation Fee</span>
+
+                  <span className="font-bold text-emerald-700 text-right">
+                    ₹{doctor.fees}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <button
+              onClick={handleBooking}
+              className="w-full py-4 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-lg transition-all hover:scale-[1.01] active:scale-[0.98]"
+            >
+              Confirm Appointment
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
