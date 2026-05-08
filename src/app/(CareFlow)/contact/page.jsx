@@ -17,7 +17,7 @@ export default function ContactPage() {
       {/* HERO */}
       <section className="py-15 bg-linear-to-br from-teal-50 via-white to-teal-100 text-center">
         <h1 className="text-4xl md:text-5xl font-bold text-gray-800 tracking-tight">
-          Contact Al-Moin Hospital
+          Contact CareFlow
         </h1>
         <p className="mt-5 text-lg text-gray-600 max-w-xl mx-auto">
           We're always here to help you. Reach out anytime for assistance or inquiries.
@@ -39,7 +39,7 @@ export default function ContactPage() {
               <div>
                 <h3 className="text-lg font-semibold text-gray-800">Address</h3>
                 <p className="text-gray-600 mt-1">
-                  Al Moin Hospital, Bhiwandi <br />
+                  CareFlow, Bhiwandi <br />
                   Maharashtra, India - 421302
                 </p>
               </div>
@@ -64,7 +64,7 @@ export default function ContactPage() {
               <div>
                 <h3 className="text-lg font-semibold text-gray-800">Email</h3>
                 <p className="text-gray-600 mt-1">
-                  info@almoinhospital.com
+                  info@careflow.com
                 </p>
               </div>
             </div>

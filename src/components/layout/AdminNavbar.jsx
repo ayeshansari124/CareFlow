@@ -21,7 +21,7 @@ export default function AdminNavbar() {
                             <Stethoscope className="text-white w-5 h-5" />
                         </div>
                         <span className="text-2xl font-bold text-gray-800">
-                            Al-Moin<span className="text-teal-600"> Admin</span>
+                            CareFlow<span className="text-teal-600"> Admin</span>
                         </span>
                     </Link>
 

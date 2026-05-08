@@ -32,7 +32,7 @@ export default function Navbar() {
               </div>
 
               <span className="text-2xl font-bold text-gray-800">
-                Al-Moin<span className="text-teal-600"> Hospital</span>
+                CareFlow<span className="text-teal-600"> Hospital</span>
               </span>
 
             </Link>

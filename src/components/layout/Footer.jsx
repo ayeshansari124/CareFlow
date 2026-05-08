@@ -7,7 +7,7 @@ export default function Footer() {
 
         {/* Left */}
         <p>
-          © {new Date().getFullYear()} Al-Moin Hospital Hospital. All rights reserved.
+          © {new Date().getFullYear()} CareFlow. All rights reserved.
         </p>
       </div>
     </footer>

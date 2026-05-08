@@ -11,14 +11,14 @@ export default function AboutPage() {
           {/* Content */}
           <div>
             <p className="text-2xl text-teal-600 font-semibold uppercase tracking-wider">
-              About Al-Moin Hospital
+              About CareFlow
             </p>
             <h1 className="mt-4 text-3xl md:text-5xl font-bold text-gray-800 leading-tight">
               Redefining Healthcare <br />
               <span className="text-teal-600">With Compassion & Innovation</span>
             </h1>
             <p className="mt-6 text-gray-600 text-base leading-relaxed">
-              At Al-Moin Hospital Hospital, we combine advanced medical technology
+              At CareFlow, we combine advanced medical technology
               with compassionate patient care. Our experienced doctors and
               modern infrastructure ensure reliable and high-quality treatment
               for every individual.
@@ -43,7 +43,7 @@ export default function AboutPage() {
               Our Commitment to Care
             </h2>
             <p className="mt-4 text-gray-600 leading-relaxed text-sm md:text-base">
-              Al-Moin Hospital Hospital was founded with a vision to provide
+              CareFlow was founded with a vision to provide
               affordable, reliable, and advanced healthcare services.
               Our experienced doctors and modern infrastructure allow
               us to serve patients with excellence and integrity.

@@ -3,7 +3,7 @@ import { AuthProvider } from "@/context/AuthContext";
 import { Toaster } from "react-hot-toast";
 import Footer from "@/components/layout/Footer";
 export const metadata = {
-  title: "Al-Moin Hospital - Hospital Management System",
+  title: "CareFlow - Hospital Management System",
   description: "Modern Hospital Booking System",
 };
 
