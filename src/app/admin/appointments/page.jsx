@@ -2,102 +2,73 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { ChevronRight } from "lucide-react";
+
+import AdminTable from "@/components/admin/AdminTable";
+import StatusBadge from "@/components/admin/StatusBadge";
 
 export default function AdminAppointmentsPage() {
-
   const [appointments, setAppointments] = useState([]);
   const router = useRouter();
 
   const fetchAppointments = async () => {
-
     const res = await fetch("/api/admin/appointments");
     const data = await res.json();
-
     setAppointments(data.appointments || []);
-
   };
 
   useEffect(() => {
     fetchAppointments();
   }, []);
 
-  const getStatusStyle = (status) => {
-
-    switch (status) {
-      case "CONFIRMED":
-        return "bg-green-100 text-green-700";
-      case "PENDING":
-        return "bg-yellow-100 text-yellow-700";
-      case "CANCELLED":
-        return "bg-red-100 text-red-600";
-      case "COMPLETED":
-        return "bg-blue-100 text-blue-700";
-      default:
-        return "bg-gray-100 text-gray-600";
-    }
-
+  const statusColors = {
+    CONFIRMED: "green",
+    PENDING: "yellow",
+    CANCELLED: "red",
+    COMPLETED: "blue",
   };
 
   return (
-    <div className="max-w-7xl mx-auto p-6">
+    <div className="max-w-7xl mx-auto px-8 py-8">
+      <AdminTable
+        columns={["Patient", "Doctor", "Date", "Amount", "Status", ""]}
+      >
+        {appointments.map((appt) => {
+          const date = new Date(appt.bookingTime).toLocaleString();
 
-      <h1 className="text-2xl font-semibold mb-6">
-        Appointments
-      </h1>
+          return (
+            <tr
+              key={appt.id}
+              onClick={() => router.push(`/admin/appointments/${appt.id}`)}
+              className="group cursor-pointer border-b border-gray-100 last:border-none hover:bg-gray-50/70 transition-all"
+            >
+              <td className="px-6 py-5 font-medium text-gray-900">
+                {appt.patient.name}
+              </td>
 
-      <div className="bg-white rounded-xl shadow overflow-hidden">
+              <td className="px-6 py-5 text-gray-600">Dr. {appt.doctor.name}</td>
 
-        <table className="w-full text-left">
+              <td className="px-6 py-5 text-gray-600">{date}</td>
 
-          <thead className="bg-gray-50 border-b">
-            <tr>
-              <th className="p-4">Patient</th>
-              <th>Doctor</th>
-              <th>Date</th>
-              <th>Amount</th>
-              <th>Status</th>
+              <td className="px-6 py-5 text-gray-700 font-medium">
+                ₹{appt.amount}
+              </td>
+
+              <td className="px-6 py-5">
+                <StatusBadge color={statusColors[appt.status]}>
+                  {appt.status}
+                </StatusBadge>
+              </td>
+
+              <td className="pr-6">
+                <div className="h-10 w-10 rounded-xl flex items-center justify-center text-gray-400 transition-all group-hover:bg-white group-hover:text-emerald-600">
+                  <ChevronRight size={18} />
+                </div>
+              </td>
             </tr>
-          </thead>
-
-          <tbody>
-
-            {appointments.map((appt) => {
-
-              const date = new Date(appt.bookingTime).toLocaleString();
-
-              return (
-                <tr
-                  key={appt.id}
-                  onClick={() => router.push(`/admin/appointments/${appt.id}`)}
-                  className="border-b hover:bg-gray-50 cursor-pointer"
-                >
-
-                  <td className="p-4">{appt.patient.name}</td>
-
-                  <td>{appt.doctor.name}</td>
-
-                  <td>{date}</td>
-
-                  <td>₹{appt.amount}</td>
-
-                  <td>
-                    <span
-                      className={`text-xs px-3 py-1 rounded-full font-medium ${getStatusStyle(appt.status)}`}
-                    >
-                      {appt.status}
-                    </span>
-                  </td>
-
-                </tr>
-              );
-            })}
-
-          </tbody>
-
-        </table>
-
-      </div>
-
+          );
+        })}
+      </AdminTable>
     </div>
   );
 }
