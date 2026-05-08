@@ -3,6 +3,7 @@
 import { useEffect, useState, use } from "react";
 import { useRouter } from "next/navigation";
 
+import { useAuth } from "@/context/AuthContext";
 import toast from "react-hot-toast";
 
 import {
@@ -18,7 +19,7 @@ export default function AppointmentPage({ params }) {
   const { id } = use(params);
 
   const router = useRouter();
-
+  const { user } = useAuth();
   const [doctor, setDoctor] = useState(null);
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
@@ -278,10 +279,27 @@ export default function AppointmentPage({ params }) {
             </div>
 
             <button
-              onClick={handleBooking}
-              className="w-full py-4 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-lg transition-all hover:scale-[1.01] active:scale-[0.98]"
+              onClick={() => {
+                if (!user) {
+                  return toast.error("Please login to book appointment");
+                }
+
+                handleBooking();
+              }}
+              disabled={!user}
+              className={`
+    w-full py-4 rounded-2xl
+    text-white font-bold text-lg
+    transition-all
+
+    ${
+      user
+        ? "bg-emerald-600 hover:bg-emerald-700 hover:scale-[1.01] active:scale-[0.98]"
+        : "bg-gray-300 cursor-not-allowed"
+    }
+  `}
             >
-              Confirm Appointment
+              {user ? "Confirm Appointment" : "Login Required"}
             </button>
           </div>
         </div>
