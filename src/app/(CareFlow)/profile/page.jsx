@@ -295,7 +295,7 @@ export default function ProfilePage() {
                         <div className="min-w-0 flex-1">
                           <div className="flex items-center gap-3 flex-wrap">
                             <h3 className="font-bold text-slate-900 text-lg">
-                              Dr. {a.doctor.name}
+                               {a.doctor.name}
                             </h3>
 
                             <span

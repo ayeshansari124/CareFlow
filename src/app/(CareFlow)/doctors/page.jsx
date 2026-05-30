@@ -68,7 +68,7 @@ export default function DoctorsPage() {
                 <div className="flex items-start justify-between gap-2">
                   <div>
                     <h2 className="text-2xl font-black text-gray-900 leading-tight">
-                      Dr. {doctor.name}
+                       {doctor.name}
                     </h2>
 
                     <p className="text-teal-600 font-semibold mt-1">

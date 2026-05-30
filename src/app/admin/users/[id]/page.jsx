@@ -146,7 +146,7 @@ export default async function PatientDetailPage({ params }) {
                           <td className="px-6 py-5">
                             <div>
                               <h3 className="font-semibold text-gray-900">
-                                Dr. {appt.doctor.name}
+                                {appt.doctor.name}
                               </h3>
 
                               <p className="text-sm text-gray-500 mt-1">
@@ -187,7 +187,7 @@ export default async function PatientDetailPage({ params }) {
                         <p className="text-sm text-gray-500 mb-1">Doctor</p>
 
                         <h3 className="font-semibold text-gray-900">
-                          Dr. {appt.doctor.name}
+                           {appt.doctor.name}
                         </h3>
                       </div>
 

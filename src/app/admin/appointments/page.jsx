@@ -46,7 +46,7 @@ export default function AdminAppointmentsPage() {
                 {appt.patient.name}
               </td>
 
-              <td className="px-6 py-5 text-gray-600">Dr. {appt.doctor.name}</td>
+              <td className="px-6 py-5 text-gray-600"> {appt.doctor.name}</td>
 
               <td className="px-6 py-5 text-gray-600">{date}</td>
 

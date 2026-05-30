@@ -114,7 +114,7 @@ export default function AppointmentDetailPage({ params }) {
               <div>
                 <p className="text-sm text-gray-500 mb-1">Doctor</p>
                 <h3 className="font-semibold text-gray-900">
-                  Dr. {appointment.doctor.name}
+                   {appointment.doctor.name}
                 </h3>
               </div>
             </div>

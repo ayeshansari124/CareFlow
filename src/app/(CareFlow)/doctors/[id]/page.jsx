@@ -98,7 +98,7 @@ export default function AppointmentPage({ params }) {
               {/* INFO */}
               <div className="flex-1 min-w-0">
                 <h1 className="text-3xl sm:text-4xl font-black text-slate-900 leading-tight break-words">
-                  Dr. {doctor.name}
+                   {doctor.name}
                 </h1>
 
                 <p className="text-emerald-600 text-xl font-semibold mt-2">
@@ -256,7 +256,7 @@ export default function AppointmentPage({ params }) {
                   <span className="text-gray-500">Doctor</span>
 
                   <span className="font-semibold text-gray-900 text-right">
-                    Dr. {doctor.name}
+                     {doctor.name}
                   </span>
                 </div>
 

@@ -76,7 +76,7 @@ export default function AdminDoctorsPage() {
                 />
 
                 <div>
-                  <h2 className="font-semibold text-gray-900">Dr. {doc.name}</h2>
+                  <h2 className="font-semibold text-gray-900"> {doc.name}</h2>
 
                   <p className="text-sm text-gray-500">Doctor Profile</p>
                 </div>

@@ -93,7 +93,7 @@ export default function DoctorDetailPage({ params }) {
             />
 
             <h2 className="text-2xl font-bold text-gray-900 mt-5">
-              Dr. {doctor.name}
+               {doctor.name}
             </h2>
 
             <p className="text-gray-500 mt-1">{doctor.specialization}</p>
