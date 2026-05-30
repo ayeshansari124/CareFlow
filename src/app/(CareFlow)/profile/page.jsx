@@ -15,6 +15,8 @@ import {
   X,
 } from "lucide-react";
 
+import { formatDate, formatTime, formatDateTime } from "@/lib/date";
+
 export default function ProfilePage() {
   const [profile, setProfile] = useState(null);
   const [appointments, setAppointments] = useState([]);
@@ -237,7 +239,7 @@ export default function ProfilePage() {
                     }
                   />
                 ) : (
-                  new Date(profile.dob).toLocaleDateString()
+                  formatDate(profile.dob)
                 )}
               </ProfileItem>
 
@@ -283,8 +285,7 @@ export default function ProfilePage() {
             ) : (
               <div className="space-y-3">
                 {appointments.map((a) => {
-                  const date = new Date(a.bookingTime).toLocaleString();
-
+                 const date = formatDateTime(a.bookingTime);
                   return (
                     <div
                       key={a.id}
@@ -295,7 +296,7 @@ export default function ProfilePage() {
                         <div className="min-w-0 flex-1">
                           <div className="flex items-center gap-3 flex-wrap">
                             <h3 className="font-bold text-slate-900 text-lg">
-                               {a.doctor.name}
+                              {a.doctor.name}
                             </h3>
 
                             <span

@@ -7,7 +7,7 @@ import { Pencil, Trash2, CheckCircle2, XCircle } from "lucide-react";
 import toast from "react-hot-toast";
 import CreateDoctorModal from "@/components/modals/CreateDoctorModal";
 import StatusBadge from "@/components/admin/StatusBadge";
-
+import { formatDateTime } from "@/lib/date";
 export default function DoctorDetailPage({ params }) {
   const router = useRouter();
   const { id } = use(params);
@@ -220,8 +220,7 @@ export default function DoctorDetailPage({ params }) {
 
                   <tbody>
                     {doctor.appointments.map((appt) => {
-                      const date = new Date(appt.bookingTime).toLocaleString();
-
+                      const date = formatDateTime(appt.bookingTime);
                       return (
                         <tr
                           key={appt.id}
@@ -260,8 +259,7 @@ export default function DoctorDetailPage({ params }) {
               {/* MOBILE */}
               <div className="lg:hidden px-5 pb-5 space-y-4">
                 {doctor.appointments.map((appt) => {
-                  const date = new Date(appt.bookingTime).toLocaleString();
-
+                  const date = formatDateTime(appt.bookingTime);
                   return (
                     <div
                       key={appt.id}

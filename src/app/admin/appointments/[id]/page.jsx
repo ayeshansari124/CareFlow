@@ -10,7 +10,7 @@ import {
   XCircle,
   BadgeCheck,
 } from "lucide-react";
-
+import { formatDateTime } from "@/lib/date";
 import toast from "react-hot-toast";
 import StatusBadge from "@/components/admin/StatusBadge";
 
@@ -48,8 +48,7 @@ export default function AppointmentDetailPage({ params }) {
       </div>
     );
 
-  const date = new Date(appointment.bookingTime).toLocaleString();
-
+ const date = formatDateTime(appointment.bookingTime);
   const getStatusColor = (status) => {
     switch (status) {
       case "PENDING":

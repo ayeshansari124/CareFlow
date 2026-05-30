@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ChevronRight } from "lucide-react";
+import { formatDateTime } from "@/lib/date";
 
 import AdminTable from "@/components/admin/AdminTable";
 import StatusBadge from "@/components/admin/StatusBadge";
@@ -34,8 +35,7 @@ export default function AdminAppointmentsPage() {
         columns={["Patient", "Doctor", "Date", "Amount", "Status", ""]}
       >
         {appointments.map((appt) => {
-          const date = new Date(appt.bookingTime).toLocaleString();
-
+          const date = formatDateTime(appt.bookingTime);
           return (
             <tr
               key={appt.id}

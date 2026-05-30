@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ChevronRight } from "lucide-react";
+import { formatDate } from "@/lib/date";
 
 import toast from "react-hot-toast";
 
@@ -60,8 +61,7 @@ export default function AdminUsersPage() {
         ]}
       >
         {users.map((user) => {
-          const joined = new Date(user.user.createdAt).toLocaleDateString();
-
+          const joined = formatDate(user.user.createdAt);
           return (
             <tr
               key={user.id}

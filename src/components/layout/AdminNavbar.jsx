@@ -57,7 +57,7 @@ export default function AdminNavbar() {
               href="/admin/users"
               className="py-3 hover:bg-teal-50 hover:text-teal-600 transition"
             >
-              Users
+              Patients
             </Link>
 
             <Link

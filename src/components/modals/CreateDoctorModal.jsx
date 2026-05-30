@@ -102,9 +102,7 @@ export default function CreateDoctorModal({
 
   return (
     <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 px-4">
-
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto p-8 relative">
-
         <button
           onClick={onClose}
           className="absolute right-6 top-6 text-gray-500 hover:text-gray-700"
@@ -125,20 +123,18 @@ export default function CreateDoctorModal({
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-10">
-
           {/* BASIC */}
           <div>
-
             <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wide mb-4">
               Basic Information
             </h3>
 
             <div className="grid gap-5 sm:grid-cols-2">
-
               <div>
                 <label className={label}>Full Name</label>
                 <input
                   className={input}
+                  placeholder="Dr. John Doe"
                   value={form.name}
                   onChange={(e) => update("name", e.target.value)}
                 />
@@ -175,20 +171,16 @@ export default function CreateDoctorModal({
                   onChange={(e) => update("phone", e.target.value)}
                 />
               </div>
-
             </div>
-
           </div>
 
           {/* PROFESSIONAL */}
           <div>
-
             <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wide mb-4">
               Professional Details
             </h3>
 
             <div className="grid gap-5 sm:grid-cols-2">
-
               <div>
                 <label className={label}>Degree</label>
                 <input
@@ -203,21 +195,17 @@ export default function CreateDoctorModal({
                 <input
                   className={input}
                   value={form.specialization}
-                  onChange={(e) =>
-                    update("specialization", e.target.value)
-                  }
+                  onChange={(e) => update("specialization", e.target.value)}
                 />
               </div>
 
               <div>
-                <label className={label}>Experience</label>
+                <label className={label}>Experience (Years)</label>
                 <input
                   type="number"
                   className={input}
                   value={form.experience}
-                  onChange={(e) =>
-                    update("experience", e.target.value)
-                  }
+                  onChange={(e) => update("experience", e.target.value)}
                 />
               </div>
 
@@ -230,39 +218,28 @@ export default function CreateDoctorModal({
                   onChange={(e) => update("fees", e.target.value)}
                 />
               </div>
-
             </div>
-
           </div>
 
           {/* EXTRA */}
           <div>
-
             <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wide mb-4">
               Additional Information
             </h3>
 
             <div className="space-y-5">
-
               <div>
                 <label className={label}>Profile Image</label>
 
                 <label className="flex items-center justify-center gap-2 border-2 border-dashed border-gray-300 rounded-lg py-6 cursor-pointer hover:border-blue-500 transition">
-
                   <UploadCloud size={18} className="text-gray-500" />
 
                   <span className="text-sm text-gray-500">
                     Upload doctor image
                   </span>
 
-                  <input
-                    id="doctorImage"
-                    type="file"
-                    className="hidden"
-                  />
-
+                  <input id="doctorImage" type="file" className="hidden" />
                 </label>
-
               </div>
 
               <div>
@@ -274,28 +251,21 @@ export default function CreateDoctorModal({
                   value={form.about}
                   onChange={(e) => update("about", e.target.value)}
                 />
-
               </div>
 
               <div className="flex items-center gap-3 pt-2">
-
                 <input
                   type="checkbox"
                   checked={form.available}
-                  onChange={(e) =>
-                    update("available", e.target.checked)
-                  }
+                  onChange={(e) => update("available", e.target.checked)}
                   className="h-4 w-4 text-blue-600 rounded border-gray-300"
                 />
 
                 <label className="text-sm font-medium text-gray-700">
                   Available for appointments
                 </label>
-
               </div>
-
             </div>
-
           </div>
 
           <button
@@ -311,11 +281,8 @@ export default function CreateDoctorModal({
                 ? "Update Doctor"
                 : "Create Doctor"}
           </button>
-
         </form>
-
       </div>
-
     </div>
   );
 }

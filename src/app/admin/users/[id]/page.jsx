@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import StatusBadge from "@/components/admin/StatusBadge";
+import { formatDate, formatDateTime } from "@/lib/date";
 
 export default async function PatientDetailPage({ params }) {
   const { id } = await params;
@@ -57,7 +58,7 @@ export default async function PatientDetailPage({ params }) {
             <p className="text-gray-500 mt-1">Patient Record</p>
 
             <div className="mt-5 bg-gray-100 rounded-2xl px-4 py-2 text-sm text-gray-600">
-              Joined {new Date(patient.user.createdAt).toLocaleDateString()}
+              Joined {formatDate(patient.user.createdAt)}
             </div>
           </div>
 
@@ -86,7 +87,7 @@ export default async function PatientDetailPage({ params }) {
               <p className="text-sm text-gray-500 mb-1">Date of Birth</p>
 
               <h3 className="font-semibold text-gray-900">
-                {new Date(patient.dob).toLocaleDateString()}
+                {formatDate(patient.dob)}
               </h3>
             </div>
 
@@ -136,7 +137,7 @@ export default async function PatientDetailPage({ params }) {
 
                   <tbody>
                     {patient.appointments.map((appt) => {
-                      const date = new Date(appt.bookingTime).toLocaleString();
+                      const date = formatDateTime(appt.bookingTime);
 
                       return (
                         <tr
@@ -176,8 +177,7 @@ export default async function PatientDetailPage({ params }) {
               {/* MOBILE */}
               <div className="lg:hidden px-5 pb-5 space-y-4">
                 {patient.appointments.map((appt) => {
-                  const date = new Date(appt.bookingTime).toLocaleString();
-
+                  const date = formatDateTime(appt.bookingTime);
                   return (
                     <div
                       key={appt.id}
@@ -187,7 +187,7 @@ export default async function PatientDetailPage({ params }) {
                         <p className="text-sm text-gray-500 mb-1">Doctor</p>
 
                         <h3 className="font-semibold text-gray-900">
-                           {appt.doctor.name}
+                          {appt.doctor.name}
                         </h3>
                       </div>
 
