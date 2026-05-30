@@ -1,108 +1,228 @@
-# 🏥 CareFlow – Full-Stack Hospital Management Platform
+# 🏥 CareFlow – Hospital Appointment Management System
 
-A modern full-stack hospital management system to **manage doctors, patients, and appointments seamlessly**, with real-time availability tracking, secure authentication, and an intuitive admin dashboard.
-Built using **Next.js, PostgreSQL (Neon), Prisma, and JWT cookies**, with a strong focus on **scalability and real-world usability**.
+CareFlow is a full-stack hospital appointment management platform designed to streamline patient-doctor interactions, appointment scheduling, and hospital administration. 
+The system provides dedicated interfaces for both patients and administrators, enabling efficient healthcare management through a modern and intuitive web application.
+
+---
+
+## 🌐 Live Demo
+
+https://medicare-self-gamma.vercel.app/
 
 ---
 
 ## 🚀 Features
 
-### 🩺 Doctor Management
+### 👤 Patient Module
 
-* Add, edit, and delete doctors (Admin)
-* Profile with specialization, experience, fees, and availability
-* Toggle doctor availability in real time
-* Doctor-wise appointment tracking
-
----
-
-### 👤 Patient System
-
-* Secure authentication (register / login / logout)
-* Persistent sessions using **HTTP-only JWT cookies**
-* Profile management (name, phone, DOB, gender, address)
-* View and manage personal appointments
+- User Registration & Login Authentication
+- View Doctor Profiles & Specializations
+- Real-Time Doctor Availability Status
+- Book Appointments with Preferred Doctors
+- Appointment Summary Before Confirmation
+- Manage Personal Profile Information
+- View Appointment History
+- Cancel Scheduled Appointments
+- Explore Hospital Gallery
+- Hospital Information & Contact Section
+- Responsive and User-Friendly Interface
 
 ---
 
-### 📅 Appointment System
+### 👨‍⚕️ Doctor Management
 
-* Book appointments with date & time selection
-* Real-time doctor availability check
-* Appointment status tracking:
-
-  * Pending
-  * Confirmed
-  * Cancelled
-  * Completed
-* Patients can cancel pending appointments
-* Admin can manage and update appointment statuses
+- Doctor Listing with Detailed Profiles
+- Qualification Information
+- Specialization Details
+- Consultation Fees
+- Experience Information
+- Availability Tracking
+- Doctor Profile Pages
+- Appointment Records Linked to Doctors
 
 ---
 
-### 🛠 Admin Dashboard
+### 🛠️ Admin Module
 
-* Overview of total doctors, patients, users, and appointments
-* Manage all doctors and users
-* View all appointments in one place
-* Status-based filtering with visual indicators
+#### Dashboard
+
+- Total Doctors, Patients and Users Overview
+- Total Appointments Overview
+- Pending and Confirmed Appointment Statistics
+
+#### Patient Management
+
+- View All Registered Patients
+- Patient Profile Details
+- Appointment History Tracking
+- User Information Monitoring
+
+#### Doctor Management
+
+- Add, Edit and Delete Doctors
+- Manage Doctor Availability
+- View Doctor Appointment Records
+
+#### Appointment Management
+
+- View All Appointments
+- Track Appointment Workflow
+- Appointment Status Monitoring
+- Confirm, Complete or Cancel Appointments
 
 ---
 
-### 🌐 Frontend Architecture
-
-* Built with **Next.js App Router**
-* Tailwind CSS for responsive UI
-* Component-based modular design
-* Context API for global authentication state
-* Optimized for both desktop and mobile usage
-* Deployed on **Vercel**
-
----
-
-### 🧠 Backend Architecture
-
-* API routes using **Next.js server functions**
-* **Prisma ORM** for database operations
-* **PostgreSQL (Neon)** as serverless database
-* JWT authentication with cookie-based sessions
-* Role-based access (Admin / Doctor / Patient)
-
----
-
-## 🛠 Tech Stack
+## 🚀 Tech Stack
 
 ### Frontend
 
-* Next.js (App Router)
-* Tailwind CSS
-* Context API
-* React Hooks
+- Next.js 16
+- React 19
+- Tailwind CSS 4
+- Lucide React
+- React Hot Toast
 
 ### Backend
 
-* Next.js API Routes
-* Prisma ORM
-* PostgreSQL (Neon)
-* JWT (cookie-based authentication)
+- Next.js App Router
+- API Routes
+- Server Components
 
-### Deployment
+### Database & ORM
 
-* Vercel – full-stack deployment
-* Neon – serverless database
+- Prisma ORM
+- SQL Database
 
----
+### Authentication & Security
 
-## 📚 Learnings
+- JWT Authentication
+- JOSE
+- bcryptjs
 
-* Building a **full-stack production-ready system** using Next.js App Router
-* Implementing **role-based access control** (Admin / Patient / Doctor)
-* Managing **secure authentication using HTTP-only cookies**
-* Handling **Prisma + Neon deployment issues in production**
-* Designing clean and scalable **API architecture inside Next.js**
-* Creating responsive, user-friendly healthcare UI systems
-* Debugging real-world deployment and environment issues
+### Additional Tools
+
+- Cloudinary
+- Day.js
 
 ---
 
-### Built with ❤️ by Ayesha
+## 🔑 Admin Credentials
+
+```bash
+Email: ayeshansari124@gmail.com
+Password: ayesha
+```
+
+---
+
+# 📸 Screenshots
+
+## 👤 Patient Side
+
+### 🏠 Homepage
+![Homepage](./screenshots/homepage.png)
+
+---
+
+### 👨‍⚕️ Doctors Listing
+![Doctors](./screenshots/doctors.png)
+
+---
+
+### 📋 Doctor Details
+![Doctor Details](./screenshots/doctor-details.png)
+
+---
+
+### 🔐 Login & Registration
+![Authentication](./screenshots/authentication.png)
+
+---
+
+### 📅 Appointment Booking
+![Appointment Booking](./screenshots/appointment-booking.png)
+
+---
+
+### 👤 Patient Profile
+![Profile](./screenshots/profile.png)
+
+---
+
+### 🖼️ Gallery Page
+![Gallery](./screenshots/gallery.png)
+
+---
+
+### ℹ️ About Page
+![About](./screenshots/about.png)
+
+---
+
+### 📞 Contact Page
+![Contact](./screenshots/contact.png)
+
+---
+
+## 🛠️ Admin Side
+
+### 📊 Dashboard
+![Dashboard](./screenshots/admin-dashboard.png)
+
+---
+
+### 👥 Patient Management
+![Patients](./screenshots/admin-patients.png)
+
+![Patient Details](./screenshots/admin-patient-details.png)
+
+---
+
+### 👨‍⚕️ Doctor Management
+![Doctors](./screenshots/admin-doctors.png)
+
+![Doctor Details](./screenshots/admin-doctor-details.png)
+
+---
+
+### 📅 Appointment Management
+![Appointments](./screenshots/admin-appointments.png)
+
+![Appointment Details](./screenshots/admin-appointment-details.png)
+
+---
+
+## 🧠 What I Learned
+
+- Building role-based authentication systems
+- Designing appointment booking workflows
+- Managing relational data with Prisma ORM
+- Implementing CRUD operations for hospital resources
+- Creating reusable React components
+- Building scalable applications using Next.js App Router
+- Handling protected routes and authorization
+- Managing appointment lifecycle states
+- Database modeling and migrations with Prisma
+- Developing admin dashboards and management systems
+
+---
+
+## 💡 Future Improvements
+
+- Online Payments
+- Email Notifications
+- SMS Appointment Reminders
+- Doctor Schedule Management
+- Medical Record Storage
+- Prescription Management
+- Multi-Hospital Support
+- Advanced Analytics Dashboard
+- Seperate Doctor Module
+
+---
+
+## 👩‍💻 Author
+
+**Ayesha Ansari**
+
+Built with ❤️ using Next.js, React, Prisma, and Tailwind CSS.
