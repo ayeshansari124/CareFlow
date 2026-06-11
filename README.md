@@ -110,85 +110,26 @@ https://medicare-self-gamma.vercel.app/
 
 ```bash
 Email: ayeshansari124@gmail.com
-Password: ayesha
+Password: Admin access available for demonstration purposes upon request.
 ```
 
 ---
 
-# 📸 Screenshots
+## 🎥 Project Demo
 
-## 👤 Patient Side
+### 👤 Patient Experience
 
-### 🏠 Homepage
-![Homepage](./screenshots/homepage.png)
+Browse doctors, check availability, book appointments, manage profiles, and track appointment history.
 
----
-
-### 👨‍⚕️ Doctors Listing
-![Doctors](./screenshots/doctors.png)
+[![Patient Demo](./patient-demo-thumbnail.png)](https://ayeshansari124.github.io/CareFlow/demo.html)
 
 ---
 
-### 📋 Doctor Details
-![Doctor Details](./screenshots/doctor-details.png)
+### 🛠️ Admin Dashboard
 
----
+Manage doctors, patients, appointments, availability, and hospital operations.
 
-### 🔐 Login & Registration
-![Authentication](./screenshots/authentication.png)
-
----
-
-### 📅 Appointment Booking
-![Appointment Booking](./screenshots/appointment-booking.png)
-
----
-
-### 👤 Patient Profile
-![Profile](./screenshots/profile.png)
-
----
-
-### 🖼️ Gallery Page
-![Gallery](./screenshots/gallery.png)
-
----
-
-### ℹ️ About Page
-![About](./screenshots/about.png)
-
----
-
-### 📞 Contact Page
-![Contact](./screenshots/contact.png)
-
----
-
-## 🛠️ Admin Side
-
-### 📊 Dashboard
-![Dashboard](./screenshots/admin-dashboard.png)
-
----
-
-### 👥 Patient Management
-![Patients](./screenshots/admin-patients.png)
-
-![Patient Details](./screenshots/admin-patient-details.png)
-
----
-
-### 👨‍⚕️ Doctor Management
-![Doctors](./screenshots/admin-doctors.png)
-
-![Doctor Details](./screenshots/admin-doctor-details.png)
-
----
-
-### 📅 Appointment Management
-![Appointments](./screenshots/admin-appointments.png)
-
-![Appointment Details](./screenshots/admin-appointment-details.png)
+[![Admin Demo](./admin-demo-thumbnail.png)](https://ayeshansari124.github.io/CareFlow/demo.html)
 
 ---
 
